@@ -8,6 +8,13 @@
 class CrudEngine
 {
 
+    /*
+    *   To Do
+    *   Define Variables
+    *   Create All Functions
+    */
+
+
     function __construct(argument)
     {
 

@@ -128,13 +128,9 @@ class CrudEngine
                         } else {
 
                             $this->result = null;
-
                         }
                     }
-
-
                 }
-
             }
                 //  Query was successful
             return true;
@@ -148,7 +144,33 @@ class CrudEngine
 
     }
 
+            //  Function to select records from Database
 
+    public function select($table, $rows = '*', $join = null, $where = null, $order = null, $limit = null) {
+
+            // Create query from the variables passed to the function
+
+            $q = 'SELECT '.$rows.' FROM '.$table;
+
+            if($join != null) {
+
+                    $q .= ' JOIN '.$join;
+                }
+            if($where != null) {
+
+                    $q .= ' WHERE '.$where;
+                }
+            if($order != null) {
+
+                    $q .= ' ORDER BY '.$order;
+                }
+            if($limit != null) {
+
+                    $q .= ' LIMIT '.$limit;
+
+                }
+
+    }
 
 }
 

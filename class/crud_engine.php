@@ -1,8 +1,8 @@
 <?php
 /*
- * @Author Rukhsar Manzoor <rukhsar.man@gmail.com>
- * @Version 1.0
- * @Package CrudEngine
+ * @ Author Rukhsar Manzoor <rukhsar.man@gmail.com>
+ * @ Version 1.0
+ * @ Package CrudEngine
  */
 
 class CrudEngine
@@ -144,11 +144,11 @@ class CrudEngine
 
     }
 
-            //  Function to select records from Database
+                //  Function to select records from Database
 
     public function select($table, $rows = '*', $join = null, $where = null, $order = null, $limit = null) {
 
-            // Create query from the variables passed to the function
+                // Create query from the variables passed to the function
 
             $q = 'SELECT '.$rows.' FROM '.$table;
 
@@ -170,7 +170,75 @@ class CrudEngine
 
                 }
 
+                // Pass back the SQL
+
+            $this->myQuery = $q;
+
+                // Check to see if the table exists
+            if($this->tableExists($table)) {
+
+                // The table exists, run the query
+
+                $query = @mysql_query($q);
+
+            if($query) {
+
+                // If the query returns >= 1 assign the number of rows to numResults
+
+                $this->numResults = mysql_num_rows($query);
+
+                // Loop through the query results by the number of rows returned
+
+                for($i = 0; $i < $this->numResults; $i++) {
+
+                    $r = mysql_fetch_array($query);
+
+                    $key = array_keys($r);
+
+                    for($x = 0; $x < count($key); $x++) {
+
+                // Sanitizes keys so only alphavalues are allowed
+
+                        if(!is_int($key[$x])) {
+
+                            if(mysql_num_rows($query) >= 1) {
+
+                                $this->result[$i][$key[$x]] = $r[$key[$x]];
+
+                            } else {
+
+                                $this->result = null;
+                            }
+                        }
+                    }
+                }
+
+                // Query was successful
+
+                return true;
+
+            } else {
+
+                array_push($this->result,mysql_error());
+
+                // No rows where returned
+
+                return false;
+            }
+        }   else {
+
+                // Table does not exist
+            return false;
+        }
+
     }
+
+    /*
+    *       To Do
+    *           Insert Function
+    *           Delete Function
+    *           Update Function
+    */
 
 }
 

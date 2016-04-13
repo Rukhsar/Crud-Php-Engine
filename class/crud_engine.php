@@ -95,6 +95,60 @@ class CrudEngine
         }
     }
 
+    public function sql($sql) {
+
+        $query = @mysql_query($sql);
+
+                //  Pass back theSQL
+
+        $this->myQuery = $sql;
+
+        if($query) {
+
+                //  If the query return >=1 assign the number of rows to numResults
+
+            $this->numResults = mysql_num_rows($query);
+
+                //  Loop through the query results by the number of rows returned
+
+            for ($i=0; $i < $this->numResults; $i++) {
+
+                $r =    mysql_fetch_array($query);
+                $key =  array_keys($r);
+
+                for ($x=0; $x < count($key); $x++;) {
+
+                //  Sanitize keys so only Aplpha Values are allowed
+
+                    if (!is_int($key[$x])) {
+
+                        if (mysql_num_rows($query) >= 1) {
+
+                            $this->result[$i][$key[$x]] = $r[$key[$x]];
+                        } else {
+
+                            $this->result = null;
+
+                        }
+                    }
+
+
+                }
+
+            }
+                //  Query was successful
+            return true;
+
+        } else {
+
+            array_push($this->result, mysql_errno());
+                //  No rows were returned
+            retrun false;
+        }
+
+    }
+
+
 
 }
 

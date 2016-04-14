@@ -277,13 +277,39 @@ class CrudEngine
         }
     }
 
+/*
+*------------------------------------------------------------------------------------------------------------------
+*                               Utility Function for Helping Crud Engine
+*------------------------------------------------------------------------------------------------------------------
+*/
 
         //  Private function to check if table exists or not
 
+    private function tableExists($table) {
+
+        $tablesInDb = @mysql_query('SHOW TABLES FROM'.$this->DBName.'LIKE "'.$table.'"');
+
+         if($tablesInDb) {
+
+                    if(mysql_num_rows($tablesInDb)==1) {
+
+                    // The table exists
+
+                        return true;
+
+                    } else {
+
+                        array_push($this->result,$table." does not exist in this database");
+
+                        // The table does not exist
+
+                        return false;
+                    }
+                }
+    }
 
     /*
     *       To Do
-    *           Insert Function
     *           Delete Function
     *           Update Function
     */

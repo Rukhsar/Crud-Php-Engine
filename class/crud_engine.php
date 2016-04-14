@@ -233,6 +233,54 @@ class CrudEngine
 
     }
 
+
+                // Function to insert records in Database
+
+    public function insert($table,$params=array()) {
+
+                //  Check to see if the table exists in Database
+
+        if($this->tableExists($table)) {
+
+            $sql = 'INSERT INTO `'.$table.'` (`'.implode('`, `',array_keys($params)).'`) VALUES ("' . implode('", "', $params) . '")';
+
+                //  Pass back the SQL
+
+            $this-myQuery =$sql;
+
+                //  Make the query to insert to the Database
+
+            if($ins=@mysql_query($sql)) {
+
+                array_push($this->result, mysql_insert_id());
+
+                //  The data has been inserted
+
+                return true;
+
+            } else {
+
+                array_push($this->result, mysql_error());
+
+                //  The data has not been inserted
+
+                return false;
+
+            }
+
+        } else {
+
+            //  Table does not exist
+
+            return false;
+
+        }
+    }
+
+
+        //  Private function to check if table exists or not
+
+
     /*
     *       To Do
     *           Insert Function

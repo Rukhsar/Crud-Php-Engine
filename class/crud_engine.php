@@ -277,6 +277,61 @@ class CrudEngine
         }
     }
 
+
+            //Function to delete table or row(s) from database
+
+    public function delete ($table,$where = null) {
+
+            // Check to see if table exists
+
+        if ($this->tableExists($table)) {
+
+            // The table exists check to see if we are deleting rows or table
+
+            if ($where == null) {
+
+            // Create query to delete table
+
+                $delete = 'DROP TABLE '.$table;
+
+            } else {
+
+            // Create query to delete rows
+
+                $delete = 'DELETE FROM '.$table.' WHERE '.$where;
+            }
+
+            // Submit query to database
+
+            if ($del = @mysql_query($delete)) {
+
+                array_push($this->result,mysql_affected_rows());
+
+            // Pass back the SQL
+
+                $this->myQuery = $delete;
+
+            // The query exectued correctly
+
+                return true;
+
+            } else {
+
+                array_push($this->result,mysql_error());
+
+            // The query did not execute correctly
+
+                return false;
+            }
+
+        } else {
+
+            // The table does not exist
+
+            return false;
+        }
+    }
+
 /*
 *------------------------------------------------------------------------------------------------------------------
 *                               Utility Function for Helping Crud Engine

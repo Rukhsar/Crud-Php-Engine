@@ -332,6 +332,63 @@ class CrudEngine
         }
     }
 
+            // Function to update row in database
+
+    public function update ($table,$params=array(),$where) {
+
+            // Check to see if table exists
+
+        if ($this->tableExists($table)) {
+
+            // Create Array to hold all the columns to update
+
+            $args=array();
+
+            foreach ($params as $field=>$value) {
+
+            // Seperate each column out with it's corresponding value
+
+                $args[]=$field.'="'.$value.'"';
+
+            }
+
+            // Create the query
+
+            $sql='UPDATE '.$table.' SET '.implode(',',$args).' WHERE '.$where;
+
+            // Make query to database
+
+            // Pass back the SQL
+
+            $this->myQuery = $sql;
+
+            if ($query = @mysql_query($sql)) {
+
+                array_push($this->result,mysql_affected_rows());
+
+            // Update has been successful
+
+                return true;
+
+            } else {
+
+                array_push($this->result,mysql_error());
+
+            // Update has not been successful
+
+                return false;
+
+            }
+
+        } else {
+
+            // The table does not exist
+
+            return false;
+        }
+    }
+
+
 /*
 *------------------------------------------------------------------------------------------------------------------
 *                               Utility Function for Helping Crud Engine
@@ -363,11 +420,6 @@ class CrudEngine
                 }
     }
 
-    /*
-    *       To Do
-    *           Delete Function
-    *           Update Function
-    */
 
 }
 

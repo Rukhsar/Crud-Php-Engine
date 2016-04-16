@@ -2,7 +2,7 @@
 
 include('class/crud_engine.php');
 
-$db = new Database();
+$db = new CrudEngine();
 
 $db->connect();
 

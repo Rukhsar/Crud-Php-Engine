@@ -114,6 +114,7 @@ class CrudEngine
             for ($i=0; $i < $this->numResults; $i++) {
 
                 $r =    mysql_fetch_array($query);
+
                 $key =  array_keys($r);
 
                 for ($x=0; $x < count($key); $x++;) {
@@ -420,6 +421,49 @@ class CrudEngine
                 }
     }
 
+        // Public function to return the data to the user
+
+    public function getResult() {
+
+        $val = $this->result;
+
+        $this->result = array();
+
+        return $val;
+
+    }
+
+    //Pass the SQL back for debugging
+
+    public function getSql() {
+
+        $val = $this->myQuery;
+
+        $this->myQuery = array();
+
+        return $val;
+
+    }
+
+    //Pass the number of rows back
+
+    public function numRows() {
+
+        $val = $this->numResults;
+
+        $this->numResults = array();
+
+        return $val;
+
+    }
+
+    // Escape your string
+
+    public function escapeString($data) {
+
+        return mysql_real_escape_string($data);
+
+    }
 
 }
 
